@@ -32,9 +32,11 @@ implement some of the job's linked list. the funcs are: <br/>
   while that run on the list, if job_list.idx==idx ->return job_list.idx<br/>
   else ->next.<br/>
   if end of while ->return null.<br/>
-*void update_job_list(job ** job_list, int remove_done_jobs)<br/>
+* void update_job_list(job ** job_list, int remove_done_jobs)<br/>
   run on the list, do a non-blocking waitpid (<=> WNOHANG) <br/>
   for eanch job in the list: print it and remove from list.<br/>
+--------------------------------------------------------------------------
+1b:<br />
 
 
 
