@@ -7,13 +7,13 @@
 --------------------------------------------------------------------------
 0b:<br />
 options of process control signals: <br />
-*  &      - after the process name whill run the process in background.<br />
-*  ctrl+z - send the process from the foreground to the background (= pause the process)<br />
-*  jobs   - print all the current processes<br />
-*     fg  - send the last suspended process to foreground.<br />
-*  fg%id  - do the same as above to a specific process with the exact id number<br />
-*     bg  - continue a suspended process in background. Or by id or the last suspended one.<br />
-*    kill - kill jobs by their id.<br />
+* & - after the process name whill run the process in background.<br />
+* ctrl+z - send the process from the foreground to the background (= pause the process)<br />
+* jobs   - print all the current processes<br />
+* fg  - send the last suspended process to foreground.<br />
+* fg%id  - do the same as above to a specific process with the exact id number<br />
+* bg  - continue a suspended process in background. Or by id or the last suspended one.<br />
+* kill - kill jobs by their id.<br />
 
 --------------------------------------------------------------------------
 0c:<br />
