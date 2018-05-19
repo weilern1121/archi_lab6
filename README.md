@@ -15,3 +15,16 @@ options of process control signals: <br />
 **     bg  - continue a suspended process in background. Or by id or the last suspended one.<br />
 **    kill - kill jobs by their id.<br />
 
+--------------------------------------------------------------------------
+0c:<br />
+the only thing that needed to be done in this section:  change the executeTwoPipes to multiExecutePipes.<br />
+change:<br />
+in child2 before execute check if you're the last process (by check line->next->next!=0). <br/>
+** if true ->there are more commands after you -> call multiExecutePipes (line->next)  <br/>
+** else -> you're the last process -> go to execute func.<br/>
+--------------------------------------------------------------------------
+1a:<br />
+
+
+
+
