@@ -21,7 +21,7 @@ the only thing that needed to be done in this section:  change the executeTwoPip
 change:<br />
 in child2 before execute check if you're the last process (by check line->next->next!=0). <br/>
 ** if true ->there are more commands after you -> call multiExecutePipes (line->next)  <br/>
-** else -> you're the last process -> go to execute func.<br/>
+* else -> you're the last process -> go to execute func.<br/>
 --------------------------------------------------------------------------
 1a:<br />
 
