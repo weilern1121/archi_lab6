@@ -24,7 +24,17 @@ in child2 before execute check if you're the last process (by check line->next->
 * else -> you're the last process -> go to execute func.<br/>
 --------------------------------------------------------------------------
 1a:<br />
-
+implement some of the job's linked list. the funcs are: <br/>
+* initialize_job(char* cmd) <br/>
+  malloc for cmd and tmodes for the new node. <br/>
+  all the other fields initial with the defaults. <br/>
+* find_job_by_index(job * job_list, int idx)<br/>
+  while that run on the list, if job_list.idx==idx ->return job_list.idx<br/>
+  else ->next.<br/>
+  if end of while ->return null.<br/>
+*void update_job_list(job ** job_list, int remove_done_jobs)<br/>
+  run on the list, do a non-blocking waitpid (<=> WNOHANG) <br/>
+  for eanch job in the list: print it and remove from list.<br/>
 
 
 
