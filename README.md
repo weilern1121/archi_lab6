@@ -6,7 +6,7 @@
 
 --------------------------------------------------------------------------
 0b:
-options of process control signals:
+options of process control signals: \n
 **  &      - after the process name whill run the process in background.
 **  ctrl+z - send the process from the foreground to the background (= pause the process)
 **  jobs   - print all the current processes
