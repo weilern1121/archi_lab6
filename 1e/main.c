@@ -116,7 +116,7 @@ int pipeExecute(cmd_line *line){
     exit(EXIT_SUCCESS);
 }
 
-int execute (cmd_line *line, int* left_pipe, int* right_pipe , int* first_child_pid){
+int execute (cmd_line *line, int* left_pipe, int* right_pipe , int* first_child_pid, struct termios *main_termios,job *job_list,job *tmp_job){
     int fd[2],child1,result=0, status;
     pid_t child_pid = 0;
 
@@ -149,21 +149,27 @@ int execute (cmd_line *line, int* left_pipe, int* right_pipe , int* first_child_
     if(line->next){
         if(pipe(fd)==-1)
             exit_error("pipe(fd)1 error");
-        result=execute(line->next,right_pipe,fd,NULL);
+        result=execute(line->next,right_pipe,fd,NULL,main_termios,job_list,tmp_job);
     }
+    if (line->blocking == 1)
+        run_job_in_foreground(&job_list,tmp_job,1,main_termios,getpgid(0));
     return result;
 }
 //purpose:   wrapper function will handle the initial call and waiting for the last child
-int initial_execute(cmd_line *line, pid_t *child_pid){
+int initial_execute(cmd_line *line, pid_t *child_pid, struct termios *main_termios,job *job_list,job *tmp_job){
     int *right_pipe=NULL;
     int fd[2];
+    int output=0;
     if(line->next){
         if(pipe(fd)==-1)
             exit_error("pipe(fd)1 error");
         else
             right_pipe=fd;
     }
-    return execute(line,NULL,right_pipe,child_pid);
+    output= execute(line,NULL,right_pipe,child_pid,main_termios,job_list,tmp_job);
+    if (line->blocking == 1)
+        run_job_in_foreground(&job_list,tmp_job,1,main_termios,getpgid(0));
+    return output;
 }
 
 /*
@@ -298,9 +304,8 @@ int main(int argc, char *argv[]) {
                 } else {
                     //else - go to parse the line and execute it
                     tmp_job = add_job(&job_list, s);
-                    done = initial_execute(line, &child_pid_t);
-                    /*if (line->blocking == 1)
-                        run_job_in_foreground(&job_list,tmp_job,1,main_termios,getpgid(0));*/
+                    done = initial_execute(line, &child_pid_t,main_termios,job_list,tmp_job);
+
                 }
             }
 
