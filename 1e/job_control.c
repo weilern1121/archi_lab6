@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "job_control.h"
 #define FREE(X) if(X) free((void*)X)
 
@@ -162,7 +163,10 @@ job* find_job_by_index(job* job_list, int idx){
 void update_job_list(job **job_list, int remove_done_jobs){
     job* tmp = *job_list;
     while(tmp!=NULL){
-        waitpid(tmp->pgid, &tmp->status, WNOHANG);
+        int wait = waitpid(tmp->pgid, &tmp->status, WNOHANG);
+        if(wait == -1){
+            tmp->status = DONE;
+        }
         if(remove_done_jobs){
             if(tmp->status==DONE){
                 printf("[%d]\t %s \t\t %s", tmp->idx, status_to_str(tmp->status),tmp -> cmd);
@@ -183,6 +187,8 @@ void update_job_list(job **job_list, int remove_done_jobs){
 **/
 //task 1d
 void run_job_in_foreground (job** job_list, job *j, int cont, struct termios* shell_tmodes, pid_t shell_pgid){
+ if(j==NULL)
+     return;
  int job_status;
  job* tmp = *job_list;
  if(waitpid(j->pgid,&job_status,WNOHANG)==-1)
@@ -200,14 +206,13 @@ void run_job_in_foreground (job** job_list, job *j, int cont, struct termios* sh
      if(cont==1 &&j->status==SUSPENDED){
          tcsetattr (STDIN_FILENO, TCSADRAIN, j->tmodes);
      }
-     kill(j->pgid,SIGCONT);
+     assert(kill(-(j->pgid),SIGCONT)!=-1);
      //2 signals in the last arguments- will catch the relevant one
      waitpid(j->pgid,&job_status,WUNTRACED | WSTOPPED);
      if(WIFSTOPPED(job_status))
-         //TODO-maybe need to prinf("WIFSTOPPED");
          j->status=SUSPENDED;
      else{
-         if(WIFSIGNALED(job_status) || WIFEXITED((job_status)))
+         if(WIFSIGNALED(job_status) || WIFEXITED((job_status) || WTERMSIG(job_status)))
              j->status=DONE;
      }
  }
