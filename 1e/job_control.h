@@ -19,10 +19,10 @@ typedef struct job
 {
     char *cmd;
     int idx;				/* index of current job (1 for the first) */
-	pid_t pgid; 		/* save group id of the job*/
-	int status; /* 1 running 0 suspendid -1 Done  TODO: see if there's a need for it print done jobs before a command is performed*/
-	struct termios *tmodes; /* saved terminal modes */
-    struct job *next;	/* next job in chain */
+	pid_t pgid; 			/* save group id of the job*/
+	int status; 			/* 1 running 0 suspendid -1 Done d*/
+	struct termios *tmodes; 	/* saved terminal modes */
+    struct job *next;		/* next job in chain */
 } job;
 
 /* implemented functions */
